@@ -2,6 +2,7 @@ import { educationPeriod, period } from "@/lib/cv";
 import { localePath, type Dictionary, type Locale } from "@/i18n";
 import type { CvContent } from "@/lib/types";
 import { Banner } from "./Banner";
+import { PlainTextParagraphs } from "./PlainTextParagraphs";
 import { SiteControls } from "./SiteControls";
 
 export function CvView({
@@ -91,7 +92,11 @@ export function CvView({
         <main className="flex min-w-0 flex-col gap-6 py-10 md:gap-8 md:py-12 lg:py-16">
           <section className="cv-panel scroll-mt-24" id="summary">
             <h2 className="font-serif text-3xl font-bold sm:text-4xl">{labels.summary}</h2>
-            <p className="cv-copy mt-6 text-lg leading-relaxed">{profile.summary}</p>
+            <PlainTextParagraphs
+              className="mt-6"
+              paragraphClassName="cv-copy text-lg leading-relaxed"
+              text={profile.summary}
+            />
           </section>
 
           <section className="cv-panel scroll-mt-24" id="experience">
@@ -135,7 +140,11 @@ export function CvView({
                       job.company
                     )}
                   </p>
-                  <p className="cv-copy mt-3 leading-relaxed">{job.summary}</p>
+                  <PlainTextParagraphs
+                    className="mt-3"
+                    paragraphClassName="cv-copy leading-relaxed"
+                    text={job.summary}
+                  />
                   {job.highlights.length > 0 ? (
                     <ul className="cv-copy mt-4 space-y-2">
                       {job.highlights.map((highlight) => (
@@ -177,7 +186,11 @@ export function CvView({
                       </h3>
                       <span className="shrink-0 text-sm text-muted group-hover:text-paper">{labels.view}</span>
                     </div>
-                    <p className="cv-copy mt-3 text-muted">{project.summary}</p>
+                    <PlainTextParagraphs
+                      className="mt-3"
+                      paragraphClassName="cv-copy text-muted"
+                      text={project.summary}
+                    />
                     <ul className="mt-4 flex flex-wrap gap-2">
                       {project.stack.map((item) => (
                         <li

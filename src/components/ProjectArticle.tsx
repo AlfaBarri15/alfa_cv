@@ -1,5 +1,6 @@
 import { PortableText, type PortableTextComponents } from "@portabletext/react";
 import { SiteControls } from "@/components/SiteControls";
+import { PlainTextParagraphs } from "@/components/PlainTextParagraphs";
 import { localePath, type Dictionary, type Locale } from "@/i18n";
 import type { Project } from "@/lib/types";
 
@@ -50,7 +51,11 @@ export function ProjectArticle({
         <h1 className="name-gradient mt-4 font-serif text-[clamp(2.2rem,8vw,3.75rem)] leading-tight font-bold">
           {project.title}
         </h1>
-        <p className="mt-6 text-xl leading-relaxed text-muted">{project.summary}</p>
+        <PlainTextParagraphs
+          className="mt-6"
+          paragraphClassName="text-xl leading-relaxed text-muted"
+          text={project.summary}
+        />
         {project.repo ? (
           <p className="mt-6">
             <a

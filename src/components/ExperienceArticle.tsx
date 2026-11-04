@@ -1,5 +1,6 @@
 import { period } from "@/lib/cv";
 import { SiteControls } from "@/components/SiteControls";
+import { PlainTextParagraphs } from "@/components/PlainTextParagraphs";
 import { localePath, type Dictionary, type Locale } from "@/i18n";
 import type { Experience } from "@/lib/types";
 
@@ -56,7 +57,13 @@ export function ExperienceArticle({
           )}
         </p>
         <p className="mt-2 text-sm font-medium text-cyan">{period(job.start, job.end, job.current, labels.now)}</p>
-        {job.summary ? <p className="mt-6 text-xl leading-relaxed text-muted">{job.summary}</p> : null}
+        {job.summary ? (
+          <PlainTextParagraphs
+            className="mt-6"
+            paragraphClassName="text-xl leading-relaxed text-muted"
+            text={job.summary}
+          />
+        ) : null}
         {job.skills.length > 0 ? (
           <ul className="mt-6 flex flex-wrap gap-2">
             {job.skills.map((skill) => (

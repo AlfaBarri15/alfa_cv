@@ -1,17 +1,26 @@
 "use client";
 
-import { useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useMemo, useRef } from "react";
 
 const minFont = 13;
 
-export function SummaryWords({ label, words }: { label: string; words: string[] }) {
+export function SummaryWords({ label, text }: { label: string; text: string }) {
   const stageRef = useRef<HTMLDivElement>(null);
-  const wordsRef = useRef<HTMLParagraphElement>(null);
+  const wordsRef = useRef<HTMLDivElement>(null);
+  const paragraphs = useMemo(
+    () =>
+      text
+        .split(/\r?\n+/)
+        .map((paragraph) => paragraph.trim().split(/\s+/).filter(Boolean))
+        .filter((paragraph) => paragraph.length > 0),
+    [text],
+  );
+  const wordCount = paragraphs.reduce((total, paragraph) => total + paragraph.length, 0);
 
   useLayoutEffect(() => {
     const stage = stageRef.current;
     const block = wordsRef.current;
-    if (!stage || !block || words.length === 0) return;
+    if (!stage || !block || wordCount === 0) return;
 
     const fit = () => {
       stage.classList.remove("sum-stage-flow");
@@ -53,23 +62,30 @@ export function SummaryWords({ label, words }: { label: string; words: string[] 
     document.fonts?.ready.then(onFonts).catch(() => {});
     window.addEventListener("resize", fit);
     return () => window.removeEventListener("resize", fit);
-  }, [words]);
+  }, [wordCount]);
+
+  let wordIndex = 0;
 
   return (
     <section className="sum-pin sum-pin-words">
       <div className="sum-stage" ref={stageRef}>
         <p className="sum-ghost font-serif font-bold uppercase">{label}</p>
-        <p className="sum-words" ref={wordsRef} style={{ ["--n" as string]: Math.max(words.length, 1) }}>
-          {words.map((word, index) => {
-            const start = Math.round((index / Math.max(words.length - 1, 1)) * 42);
-            const end = Math.min(58, start + 14);
-            return (
-              <span key={`${word}-${index}`} style={{ animationRange: `cover ${start}% cover ${end}%` }}>
-                {word}
-              </span>
-            );
-          })}
-        </p>
+        <div className="sum-words" ref={wordsRef} style={{ ["--n" as string]: Math.max(wordCount, 1) }}>
+          {paragraphs.map((paragraph, paragraphIndex) => (
+            <p className="sum-words-paragraph" key={`${paragraphIndex}-${paragraph.join("-")}`}>
+              {paragraph.map((word) => {
+                const index = wordIndex++;
+                const start = Math.round((index / Math.max(wordCount - 1, 1)) * 42);
+                const end = Math.min(58, start + 14);
+                return (
+                  <span key={`${word}-${index}`} style={{ animationRange: `cover ${start}% cover ${end}%` }}>
+                    {word}
+                  </span>
+                );
+              })}
+            </p>
+          ))}
+        </div>
       </div>
       <div className="sum-summary-mark" id="sum-summary" />
     </section>

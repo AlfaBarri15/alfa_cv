@@ -18,7 +18,7 @@ export function SummaryView({
   const parts = profile.name.trim().split(/\s+/);
   const first = parts[0] ?? "";
   const last = parts.slice(1).join(" ");
-  const words = (profile.landingSummary || profile.summary).split(/\s+/).filter(Boolean);
+  const summary = profile.landingSummary || profile.summary;
   const categories = skillGroups.filter((group) => group.skills.length > 0);
   const sectionIds = [
     "sum-name",
@@ -60,7 +60,7 @@ export function SummaryView({
           </div>
         </section>
 
-        <SummaryWords label={labels.summary} words={words} />
+        <SummaryWords label={labels.summary} text={summary} />
 
         <section className="sum-roles" aria-label={labels.experience} id="sum-experience">
           {experience.map((job) => (

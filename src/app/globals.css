@@ -587,20 +587,30 @@ html[data-theme="dark"] [data-theme-option="dark"] {
 .sum-words {
   position: relative;
   z-index: 1;
-  display: flex;
+  display: grid;
   width: min(52rem, 100%);
   max-width: 100%;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.35em 0.45em;
+  gap: 1.35em;
   font-family: var(--font-serif), sans-serif;
   font-size: var(--fit, clamp(0.8rem, min(calc(360vw / var(--n, 12)), calc(150dvh / var(--n, 12) * 1.7), 8vw), 2.25rem));
   font-weight: 700;
   line-height: 1.15;
 }
 
+.sum-words-paragraph {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.35em 0.45em;
+}
+
 .sum-words span {
   overflow-wrap: anywhere;
+}
+
+.plain-text-paragraphs {
+  display: grid;
+  gap: 1.25rem;
 }
 
 
@@ -626,6 +636,13 @@ html[data-theme="dark"] [data-theme-option="dark"] {
   --slam-rot: 7deg;
   justify-items: end;
   text-align: right;
+}
+
+@media (max-width: 640px) {
+  .sum-role {
+    min-height: 34vh;
+    padding-block: 1.25rem;
+  }
 }
 
 .sum-skills {
@@ -669,7 +686,7 @@ html[data-theme="dark"] [data-theme-option="dark"] {
 .sum-finale {
   position: relative;
   display: grid;
-  min-height: 180dvh;
+  min-height: 100dvh;
   place-items: center;
   align-content: center;
   padding: 2rem 1.25rem 4rem;
@@ -1103,6 +1120,18 @@ html[data-theme="dark"] [data-theme-option="dark"] {
 
 .cv-copy {
   max-width: min(100%, clamp(34rem, 72%, 58rem));
+}
+
+@media (min-width: 1024px) {
+  .cv-copy {
+    max-width: 100%;
+  }
+}
+
+.cv-shell main > .cv-panel {
+  width: 100%;
+  max-width: 64rem;
+  margin-inline: auto;
 }
 
 .cv-panel {
